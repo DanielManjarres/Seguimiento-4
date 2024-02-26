@@ -5,12 +5,14 @@ public class Productos {
     private String descripcion;
     private int precio;
     private int stock;
+    private int id;
 
-    public Productos(String nombre, String descripcion, int precio, int stock) {
+    public Productos(String nombre, String descripcion, int precio, int stock, int id) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
+        this.id = id;
     }
 
     public void setNombre(String nombre) {
@@ -48,12 +50,22 @@ public class Productos {
         return stock;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return "nombre= " +nombre  +
-                ", descripcion= " + descripcion +
-                ", precio= "+ precio +
-                ", stock= "+ stock;
+        return "Productos " +
+                "nombre= " + nombre + '\'' +
+                ", descripcion= " + descripcion + '\'' +
+                ", precio= " + precio +
+                ", stock= " + stock +
+                ", id=" + id;
     }
 }
 

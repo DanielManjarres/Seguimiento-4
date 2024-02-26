@@ -8,14 +8,16 @@ public class MainProducto {
     public static void main(String[] args) {
         List<Productos> listaProductos = new ArrayList<>();
         List<ProductosPerecederos> listaProductosPerecedero = new ArrayList<>();
-        Productos producto1 = new Productos("Atun", "Enlatado", 12, 50);
-        ProductosPerecederos producto2 = new ProductosPerecederos("Leche","Deslactosada",8,100,"12/08/2025");
+        Productos producto1 = new Productos("Atun", "Enlatado", 12,50,0);
+        Productos producto2 = new Productos("Maiz", "Enlatado", 9, 150,1);
+        ProductosPerecederos producto3 = new ProductosPerecederos("Leche","Deslactosada",8,100,2,"12/08/2025");
         Scanner lector = new Scanner(System.in);
         listaProductos.add(producto1);
-        listaProductosPerecedero.add(producto2);
+        listaProductos.add(producto2);
+        listaProductosPerecedero.add(producto3);
 
         int option;
-
+        boolean encontrado = false;
         do {
             System.out.println("Seleccione opcion deseada \n1. Agregar Producto: \n2. Modificar Producto: \n3. Eliminar Producto: \n4. Salir y ver lista de productos:");
             option = lector.nextInt();
@@ -32,8 +34,9 @@ public class MainProducto {
                         int b = lector.nextInt();
                         System.out.println("Ingrese Stock del producto");
                         int c = lector.nextInt();
-                        Productos producto3 = new Productos(x,a,b,c);
-                        listaProductos.add(producto3);
+                        int n = 1 + listaProductos.size();
+                        Productos producto4 = new Productos(x,a,b,c,n);
+                        listaProductos.add(producto4);
                     }else{
                         System.out.println("Ingrese nombre del producto");
                         String x = lector.next();
@@ -43,16 +46,17 @@ public class MainProducto {
                         int b = lector.nextInt();
                         System.out.println("Ingrese Stock del producto");
                         int c = lector.nextInt();
+                        int n = 2 + listaProductosPerecedero.size();
                         System.out.println("Ingrese Fecha de vencimiento");
                         String d = lector.next();
-                        ProductosPerecederos producto3 = new ProductosPerecederos(x,a,b,c,d);
-                        listaProductosPerecedero.add(producto3);
+                        ProductosPerecederos producto4 = new ProductosPerecederos(x,a,b,c,n,d);
+                        listaProductosPerecedero.add(producto4);
                     }
                     break;
                 case 2:
                     System.out.println("Ingrese el nombre del producto  que quiere editar");
                     String nombreEditar = lector.next();
-                    boolean encontrado = true;
+                    encontrado = true;
                     for (Productos productos : listaProductos){
                         if (productos.getNombre().equals(nombreEditar)){
                             System.out.println("Ingrese nombre del producto");
@@ -88,7 +92,6 @@ public class MainProducto {
                                     productosPerecederos.setFechaVencimiento(d);
                                     encontrado = false;
                                 }
-
                             }
                         }
                     }
@@ -97,24 +100,27 @@ public class MainProducto {
                     }
                     break;
                 case 3:
-                    System.out.println("Ingrese el nombre del producto  que quiere eliminar");
-                    String nombreEliminar = lector.next();
-                    encontrado = true;
-                    for (Productos productos : listaProductos){
-                        if (productos.getNombre().equals(nombreEliminar)){
-
-                            encontrado = false;
-                        } else{
-                            for (ProductosPerecederos productosPerecederos : listaProductosPerecedero){
-                                if (productosPerecederos.getNombre().equalsIgnoreCase(nombreEliminar)){
-                                    listaProductosPerecedero.removeFirst();
-                                    encontrado = false;
-                                }
-                            }
+                    System.out.println("Ingrese el id del producto  que quiere eliminar");
+                    int idEliminar = lector.nextInt();
+                    for (Productos productos : listaProductos) {
+                        if (productos.getId() == idEliminar) {
+                            listaProductos.remove(productos);
+                            encontrado = true;
+                            break;
                         }
                     }
-                    if (encontrado) {
-                        System.out.println("Producto no encontrado.");
+                    for (ProductosPerecederos productosPerecederos : listaProductosPerecedero) {
+                        if (productosPerecederos.getId() == idEliminar) {
+                            listaProductosPerecedero.remove(productosPerecederos);
+                            encontrado = true;
+                            break;
+                        }
+                    }
+
+                    if (!encontrado) {
+                        System.out.println("Producto con ID " + idEliminar + " no encontrado.");
+                    } else {
+                        System.out.println("Producto con ID " + idEliminar + " eliminado correctamente.");
                     }
                     break;
             }
@@ -127,6 +133,5 @@ public class MainProducto {
         for (Productos producto : listaProductosPerecedero) {
             System.out.println(producto.toString());
         }
-
     }
 }
